@@ -1,57 +1,123 @@
-# React + TypeScript + Vite
+# JobMate - AI-Powered Job Application Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application that streamlines the job application process by generating personalized cover letters and emails using AI, parsing resumes, and managing application history.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **AI-Generated Content**: Create professional and enthusiastic cover letters and emails using OpenAI GPT-4o-mini
+- **Resume Parsing**: Extract information from PDF resumes automatically
+- **Profile Management**: Save and load multiple user profiles for different job applications
+- **Application Dashboard**: Track your job application history and generated documents
+- **Document Export**: Download generated content as Word documents (.docx format)
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend**: React 18, Vite, Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **Database**: SQLite (better-sqlite3)
+- **AI Integration**: OpenAI GPT-4o-mini API
+- **Document Processing**: PDF parsing and Word document generation
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Prerequisites
+
+- Node.js (v18 or higher)
+- OpenAI API Key
+- npm or yarn package manager
+
+## Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/jobmate.git
+   cd jobmate
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env` file in the root directory with the following content:
+   ```
+   OPENAI_API_KEY=your_openai_api_key_here
+   PORT=3000
+   NODE_ENV=development
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:3000`
+
+## Usage Guide
+
+1. **Upload Resume**: Start by uploading your PDF resume to automatically populate your profile
+2. **Create Profile**: Fill in your personal information, skills, and experience
+3. **Generate Content**: 
+   - Select the type of document (cover letter or email)
+   - Enter job details and company information
+   - Generate personalized content using AI
+4. **Manage Applications**: View your application history in the dashboard
+5. **Export Documents**: Download generated documents as Word files
+
+## Project Structure
+
+```
+jobmate/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/        # Main application pages
+│   │   ├── hooks/        # Custom React hooks
+│   │   └── utils/        # Utility functions
+│   └── public/           # Static assets
+├── server/                 # Express backend
+│   ├── controllers/      # Route handlers
+│   ├── services/         # Business logic
+│   ├── models/           # Database models
+│   ├── routes/           # API endpoints
+│   └── middleware/       # Express middleware
+├── database/              # SQLite database files
+├── uploads/               # Temporary file storage
+└── docs/                  # Documentation
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API Endpoints
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `POST /api/parse-resume` - Parse uploaded PDF resume
+- `POST /api/generate-content` - Generate cover letter/email using AI
+- `GET /api/profiles` - Get user profiles
+- `POST /api/profiles` - Create new profile
+- `GET /api/applications` - Get application history
+- `POST /api/export` - Export document as Word file
 
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs['recommended-typescript'],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server (frontend + backend)
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+### Database Schema
+
+The application uses SQLite with the following main tables:
+- `users` - User account information
+- `profiles` - User professional profiles
+- `applications` - Job application history
+- `documents` - Generated content metadata
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
