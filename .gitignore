@@ -7,14 +7,32 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnpm-store
+
+# Build
 dist
 dist-ssr
-*.local
+build
+out
+.next
+.nuxt
 
-# Editor directories and files
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+.env*
+
+# IDEs and Editors
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -23,4 +41,15 @@ dist-ssr
 *.sln
 *.sw?
 .vite
-.env
+
+# JobMate Specific
+job_applications.db
+job_applications.db-journal
+uploads/
+*.pdf
+*.docx
+
+# OS Generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
