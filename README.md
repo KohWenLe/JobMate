@@ -28,7 +28,7 @@ A web application that streamlines the job application process by generating per
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/jobmate.git
+   git clone https://github.com/KohWenLe/jobmate.git
    cd jobmate
    ```
 
@@ -40,7 +40,7 @@ A web application that streamlines the job application process by generating per
 3. **Set up environment variables**
    Create a `.env` file in the root directory with the following content:
    ```
-   OPENAI_API_KEY=your_openai_api_key_here
+   OPENAI_API_KEY=your_openai_api_key
    PORT=3000
    NODE_ENV=development
    ```
@@ -62,27 +62,6 @@ A web application that streamlines the job application process by generating per
 4. **Manage Applications**: View your application history in the dashboard
 5. **Export Documents**: Download generated documents as Word files
 
-## Project Structure
-
-```
-jobmate/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/        # Main application pages
-│   │   ├── hooks/        # Custom React hooks
-│   │   └── utils/        # Utility functions
-│   └── public/           # Static assets
-├── server/                 # Express backend
-│   ├── controllers/      # Route handlers
-│   ├── services/         # Business logic
-│   ├── models/           # Database models
-│   ├── routes/           # API endpoints
-│   └── middleware/       # Express middleware
-├── database/              # SQLite database files
-├── uploads/               # Temporary file storage
-└── docs/                  # Documentation
-```
 
 ## API Endpoints
 
