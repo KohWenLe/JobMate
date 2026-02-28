@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, Building, Briefcase, FileText } from 'lucide-react';
+import { Calendar, Building, Briefcase, FileText, Trash2 } from 'lucide-react';
 
 interface Application {
   id: number;
@@ -42,6 +42,28 @@ export default function Dashboard() {
     });
   };
 
+  const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this application?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/applications/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setApplications(applications.filter(app => app.id !== id));
+      } else {
+        alert('Failed to delete application: ' + data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      alert('Error deleting application');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -78,6 +100,9 @@ export default function Dashboard() {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Context Used
                 </th>
+                <th scope="col" className="relative px-6 py-3">
+                  <span className="sr-only">Actions</span>
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -105,6 +130,15 @@ export default function Dashboard() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                       {app.resume_file_path.includes('Manual') ? 'Manual Profile' : 'Resume Upload'}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button
+                      onClick={() => handleDelete(app.id)}
+                      className="text-red-600 hover:text-red-900 focus:outline-none"
+                      title="Delete Application"
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </button>
                   </td>
                 </tr>
               ))}

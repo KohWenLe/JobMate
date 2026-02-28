@@ -42,4 +42,23 @@ router.post('/', (req, res) => {
   }
 });
 
+// DELETE /api/applications/:id
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const stmt = db.prepare('DELETE FROM applications WHERE id = ?');
+    const info = stmt.run(id);
+
+    if (info.changes > 0) {
+      res.json({ success: true, message: 'Application deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Application not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    res.status(500).json({ error: 'Failed to delete application' });
+  }
+});
+
 export default router;

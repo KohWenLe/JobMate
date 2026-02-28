@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Upload, FileText, User, Send, Edit, RefreshCw, Save, FolderOpen, Download } from 'lucide-react';
+import { Upload, FileText, User, Send, Edit, RefreshCw, Save, FolderOpen, Download, Trash2 } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
 
@@ -101,6 +101,47 @@ export default function Home() {
     } catch (error) {
       console.error('Error saving profile:', error);
       alert('Error saving profile');
+    }
+  };
+
+  const handleDeleteProfile = async () => {
+    if (!selectedProfileId) {
+      alert('Please select a profile to delete');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this profile?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/profiles/${selectedProfileId}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Profile deleted successfully!');
+        setSelectedProfileId('');
+        // Reset form
+        setExtractedText('');
+        setManualProfile({
+          name: '',
+          contactInfo: '',
+          summary: '',
+          experience: '',
+          projects: '',
+          education: '',
+          skills: '',
+          others: ''
+        });
+        fetchProfiles();
+      } else {
+        alert('Failed to delete profile: ' + data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting profile:', error);
+      alert('Error deleting profile');
     }
   };
 
@@ -379,6 +420,15 @@ export default function Home() {
               <Save className="w-4 h-4 mr-2" />
               Save Profile
             </button>
+            {selectedProfileId && (
+              <button
+                onClick={handleDeleteProfile}
+                className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                title="Delete Selected Profile"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
 
