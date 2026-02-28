@@ -1,6 +1,7 @@
 /**
  * local server entry file, for local development
  */
+import './db/init.js';
 import app from './app.js';
 
 /**
