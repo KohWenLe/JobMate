@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Upload, FileText, User, Send, Edit, RefreshCw, Save, FolderOpen } from 'lucide-react';
+import { Upload, FileText, User, Send, Edit, RefreshCw, Save, FolderOpen, Download } from 'lucide-react';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
+import { saveAs } from 'file-saver';
 
 interface Profile {
   id: number;
@@ -243,6 +245,40 @@ export default function Home() {
     
     window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
     handleSaveApplication();
+  };
+
+  const generateWordDocument = async () => {
+    if (!generatedContent?.coverLetter) return;
+
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: generatedContent.coverLetter.split('\n').map((line) => 
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text: line,
+                  font: "Calibri",
+                  size: 24, // 12pt
+                }),
+              ],
+              spacing: {
+                after: 120, // Spacing after paragraph
+              },
+            })
+          ),
+        },
+      ],
+    });
+
+    try {
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, `Cover_Letter_${companyName.replace(/\s+/g, '_')}_${position.replace(/\s+/g, '_')}.docx`);
+    } catch (error) {
+      console.error('Error generating document:', error);
+      alert('Error generating Word document');
+    }
   };
 
   return (
@@ -545,6 +581,15 @@ export default function Home() {
                 title="Generated Cover Letter"
                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-4 border font-mono text-sm"
               />
+              <div className="mt-2">
+                <button
+                  onClick={generateWordDocument}
+                  className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download as Word Doc
+                </button>
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Email Body</label>
