@@ -28,7 +28,7 @@ A web application that streamlines the job application process by generating per
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/KohWenLe/jobmate.git
+   git clone https://github.com/KohWenLe/JobMate.git
    cd jobmate
    ```
 
