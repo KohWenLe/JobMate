@@ -63,15 +63,6 @@ A web application that streamlines the job application process by generating per
 5. **Export Documents**: Download generated documents as Word files
 
 
-## API Endpoints
-
-- `POST /api/parse-resume` - Parse uploaded PDF resume
-- `POST /api/generate-content` - Generate cover letter/email using AI
-- `GET /api/profiles` - Get user profiles
-- `POST /api/profiles` - Create new profile
-- `GET /api/applications` - Get application history
-- `POST /api/export` - Export document as Word file
-
 ## Development
 
 ### Available Scripts
@@ -80,14 +71,6 @@ A web application that streamlines the job application process by generating per
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
-
-### Database Schema
-
-The application uses SQLite with the following main tables:
-- `users` - User account information
-- `profiles` - User professional profiles
-- `applications` - Job application history
-- `documents` - Generated content metadata
 
 ## Contributing
 
