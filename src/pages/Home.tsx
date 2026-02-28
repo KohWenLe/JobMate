@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Upload, FileText, User, Send, Edit, RefreshCw, Save, FolderOpen, Download, Trash2 } from 'lucide-react';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { saveAs } from 'file-saver';
+import { useGeneratorStore } from '../lib/store';
 
 interface Profile {
   id: number;
@@ -12,40 +13,23 @@ interface Profile {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'upload' | 'manual'>('upload');
-  const [jobDescription, setJobDescription] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [position, setPosition] = useState('');
-  
-  // Profiles State
+  const {
+    activeTab, setActiveTab,
+    jobDescription, setJobDescription,
+    companyName, setCompanyName,
+    position, setPosition,
+    selectedProfileId, setSelectedProfileId,
+    newProfileName, setNewProfileName,
+    resumeFile, setResumeFile,
+    extractedText, setExtractedText,
+    manualProfile, setManualProfile, updateManualProfile,
+    generatedContent, setGeneratedContent
+  } = useGeneratorStore();
+
   const [profiles, setProfiles] = useState<Profile[]>([]);
-  const [selectedProfileId, setSelectedProfileId] = useState<string>('');
-  const [newProfileName, setNewProfileName] = useState('');
   const [showSaveDialog, setShowSaveDialog] = useState(false);
-  
-  // Resume Upload State
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [extractedText, setExtractedText] = useState('');
-  
-  // Manual Profile State
-  const [manualProfile, setManualProfile] = useState({
-    name: '',
-    contactInfo: '',
-    summary: '',
-    experience: '',
-    projects: '',
-    education: '',
-    skills: '',
-    others: ''
-  });
-  
-  // Generation State
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedContent, setGeneratedContent] = useState<{
-    coverLetter: string;
-    emailBody: string;
-  } | null>(null);
 
   useEffect(() => {
     fetchProfiles();
@@ -295,7 +279,7 @@ export default function Home() {
       sections: [
         {
           properties: {},
-          children: generatedContent.coverLetter.split('\n').map((line) => 
+          children: generatedContent.coverLetter.split('\n').map((line: string) => 
             new Paragraph({
               children: [
                 new TextRun({
@@ -504,7 +488,7 @@ export default function Home() {
               <input
                 type="text"
                 value={manualProfile.name}
-                onChange={(e) => setManualProfile({ ...manualProfile, name: e.target.value })}
+                onChange={(e) => updateManualProfile('name', e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="John Doe"
               />
@@ -513,7 +497,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Contact Information</label>
               <textarea
                 value={manualProfile.contactInfo}
-                onChange={(e) => setManualProfile({ ...manualProfile, contactInfo: e.target.value })}
+                onChange={(e) => updateManualProfile('contactInfo', e.target.value)}
                 rows={2}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="Email: john@example.com | Phone: (123) 456-7890 | LinkedIn: linkedin.com/in/johndoe"
@@ -523,7 +507,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Professional Summary <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.summary}
-                onChange={(e) => setManualProfile({ ...manualProfile, summary: e.target.value })}
+                onChange={(e) => updateManualProfile('summary', e.target.value)}
                 rows={3}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="Brief summary of your professional background..."
@@ -533,7 +517,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Work Experience <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.experience}
-                onChange={(e) => setManualProfile({ ...manualProfile, experience: e.target.value })}
+                onChange={(e) => updateManualProfile('experience', e.target.value)}
                 rows={4}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="Senior Developer at Tech Co (2020-Present)..."
@@ -543,7 +527,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Projects <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.projects}
-                onChange={(e) => setManualProfile({ ...manualProfile, projects: e.target.value })}
+                onChange={(e) => updateManualProfile('projects', e.target.value)}
                 rows={3}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="Key projects you have worked on..."
@@ -553,7 +537,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Education <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.education}
-                onChange={(e) => setManualProfile({ ...manualProfile, education: e.target.value })}
+                onChange={(e) => updateManualProfile('education', e.target.value)}
                 rows={2}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="BS Computer Science, University of Technology..."
@@ -563,7 +547,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Skills <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.skills}
-                onChange={(e) => setManualProfile({ ...manualProfile, skills: e.target.value })}
+                onChange={(e) => updateManualProfile('skills', e.target.value)}
                 rows={2}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="React, TypeScript, Node.js..."
@@ -573,7 +557,7 @@ export default function Home() {
               <label className="block text-sm font-medium text-gray-700">Others <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea
                 value={manualProfile.others}
-                onChange={(e) => setManualProfile({ ...manualProfile, others: e.target.value })}
+                onChange={(e) => updateManualProfile('others', e.target.value)}
                 rows={2}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border"
                 placeholder="Certifications, Awards, Languages..."
