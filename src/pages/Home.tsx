@@ -37,7 +37,7 @@ export default function Home() {
 
   const fetchProfiles = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/profiles');
+      const response = await fetch('/api/profiles');
       const data = await response.json();
       if (data.profiles) {
         setProfiles(data.profiles);
@@ -61,7 +61,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/profiles', {
+      const response = await fetch('/api/profiles', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/profiles/${selectedProfileId}`, {
+      const response = await fetch(`/api/profiles/${selectedProfileId}`, {
         method: 'DELETE',
       });
 
@@ -167,7 +167,7 @@ export default function Home() {
     formData.append('resume', resumeFile);
 
     try {
-      const response = await fetch('http://localhost:3001/api/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -199,7 +199,7 @@ export default function Home() {
 
     setIsGenerating(true);
     try {
-      const response = await fetch('http://localhost:3001/api/generate', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -234,7 +234,7 @@ export default function Home() {
     if (!generatedContent) return;
 
     try {
-      const response = await fetch('http://localhost:3001/api/applications', {
+      const response = await fetch('/api/applications', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

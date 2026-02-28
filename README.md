@@ -41,7 +41,7 @@ A web application that streamlines the job application process by generating per
    Create a `.env` file in the root directory with the following content:
    ```
    OPENAI_API_KEY=your_openai_api_key
-   PORT=3000
+   PORT=3001
    NODE_ENV=development
    ```
 
@@ -49,7 +49,7 @@ A web application that streamlines the job application process by generating per
    ```bash
    npm run dev
    ```
-   The application will be available at `http://localhost:3000`
+   The application will be available at `http://localhost:5173`
 
 ## Usage Guide
 

@@ -48,7 +48,7 @@ export default function Dashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3001/api/applications/${id}`, {
+      const response = await fetch(`/api/applications/${id}`, {
         method: 'DELETE',
       });
 
